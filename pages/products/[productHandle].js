@@ -8,58 +8,77 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
-import ProductsList from "@/components/ProductList/ProductList";
-import PRODUCTS from "@/data/data";
 import Navbar from "@/components/UI/navbar";
 import BreadcrumbsNavigation from "@/components/Breadcrumbs/BreadcrumbsNavigation";
 import Footer from "@/components/UI/footer";
 
-export default function ProductPage() {
-  const router = useRouter();
-  // Get productHandle from url: /products/[productHandle]
-  const { productHandle } = router.query;
-  // Get product data
-  const product = PRODUCTS.find(
-    (product) => product.handle === parseInt(productHandle)
-  );
-  const { name, image, price } = product || {};
+import { shopifyClient } from "@/lib/shopify";
+import { parseShopifyResponse } from "@/lib/shopify";
+
+export default function ProductPage({ product }) {
+  const { id, title, images, variants, handle, description } = product;
+  const { src: productImage } = images[0];
+  const { price } = variants[0];
+
 
   return (
-    <Box>
-      <Navbar />
-      {product && (
-        <Container maxWidth="lg">
-          <BreadcrumbsNavigation title={name} />
-          <Grid container direction="row">
-            <Grid item xs={6}>
-              <Image
-                src={image}
-                alt={`Picture of ${name}`}
-                width={500}
-                height={500}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="h3" my={2}>
-                {name}
-              </Typography>
-              <Grid mt={4}>
-                <Typography variant="h6" component="span">
-                  Price:{" "}
-                </Typography>
-                <Typography variant="body1" component="span">
-                  {price}
-                </Typography>
+    <>
+      <Box>
+        <Navbar />
+        {product && (
+          <Container maxWidth="lg">
+            <BreadcrumbsNavigation title={title} />
+            <Grid container direction="row">
+              <Grid item xs={6}>
+                <Image
+                  src={productImage}
+                  alt={`Picture of ${title}`}
+                  width={500}
+                  automatically
+                  provided
+                  height={500}
+                />
               </Grid>
-              <Grid mt={1}>
-                <Button variant="contained">Add to cart</Button>
+              <Grid item xs={6}>
+                <Typography variant="h3" my={2}>
+                  {title}
+                </Typography>
+                <Grid mt={2}>
+                  <Typography mb={8} variant="body2" component="span">
+                    {description}
+                  </Typography>
+                  <div>
+                    <Typography mt={2} variant="h7" component="span">
+                      Price:{" "}
+                    </Typography>
+
+                    <Typography mt={2} variant="body1" component="span">
+                      {price.amount} {price.currencyCode}
+                    </Typography>
+                  </div>
+                </Grid>
+
+                <Grid mt={1}>
+                  <Button variant="outlined">Add to cart</Button>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        </Container>
-      )}
-      <Footer/>
-    </Box>
-    
+          </Container>
+        )}
+      </Box>
+      <Footer />
+    </>
   );
 }
+
+export const getServerSideProps = async ({ params }) => {
+  const { productHandle } = params;
+  // Fetch one product
+  const product = await shopifyClient.product.fetchByHandle(productHandle);
+
+  return {
+    props: {
+      product: parseShopifyResponse(product),
+    },
+  };
+};

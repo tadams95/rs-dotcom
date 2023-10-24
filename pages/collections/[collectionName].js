@@ -3,26 +3,36 @@ import { useRouter } from "next/router";
 
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import PRODUCTS from "@/data/data.js";
+// import PRODUCTS from "@/data/data.js";
 import Navbar from "@/components/UI/navbar";
 import BreadcrumbsNavigation from "@/components/Breadcrumbs/BreadcrumbsNavigation";
 import ProductsList from "@/components/ProductList/ProductList.js";
 import Footer from "@/components/UI/footer";
-
-export default function CollectionPage() {
-  const router = useRouter();
-  const { collectionName } = router.query;
-  const products = PRODUCTS.filter(
-    (product) => product.collection === collectionName
-  );
+export default function CollectionPage({products, collectionName}) {
   return (
     <Box>
       <Navbar />
       <Container maxWidth="lg">
-        <BreadcrumbsNavigation collection={collectionName} />
+        <BreadcrumbsNavigation title={collectionName} />
         <ProductsList products={products} />
       </Container>
-      <Footer/>
+      <Footer />
     </Box>
   );
 }
+
+export const getServerSideProps = async ({params}) => {
+  const { collectionName } = params
+  // Fetch all the collections
+  const collectionsData = await shopifyClient.collection.fetchAllWithProducts();
+  const collections = parseShopifyResponse(collectionsData);
+  // Get the right one
+  const collection = collections.find(collection => collection.handle === collectionName)
+
+  return {
+   props: {
+    collectionName,
+    products: collection.products,
+  },
+ };
+};

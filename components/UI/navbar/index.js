@@ -18,12 +18,12 @@ export default function Navbar() {
                 >
                   Home
                 </Link>
-                <Link
+                {/* <Link
                   href="/shop"
                   className="font-medium mr-8 text-gray-600 hover:text-gray-900"
                 >
                   Shop
-                </Link>
+                </Link> */}
                 <Link
                   href="/events"
                   className="font-medium mr-8 text-gray-600 hover:text-gray-900"

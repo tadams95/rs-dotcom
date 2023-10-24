@@ -7,22 +7,21 @@ import ProductsList from "@/components/ProductList/ProductList";
 import PRODUCTS from "@/data/data";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
+import { shopifyClient, parseShopifyResponse } from "@/lib/shopify";
 
-// const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+
+export default function Home({products}) {
   return (
     <>
+    <Head>
+      <title>RAGESTATE</title>
+    </Head>
       <Navbar />
-
-      <div className="my-10 px-8">
-        This is the home page, pretty much the place to showcase RAGESTATE. A
-        mix of merch and upcoming events.
-      </div>
 
       <Box>
         <Container maxWidth="lg">
-          <ProductsList products={PRODUCTS} />
+          <ProductsList products={products} />
         </Container>
       </Box>
 
@@ -30,3 +29,15 @@ export default function Home() {
     </>
   );
 }
+
+export const getServerSideProps = async () => {
+  // Fetch all the products
+  const products = await shopifyClient.product.fetchAll();
+
+
+  return {
+   props: {
+    products: parseShopifyResponse(products),
+  },
+ };
+};
