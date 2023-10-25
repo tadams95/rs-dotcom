@@ -9,14 +9,12 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { shopifyClient, parseShopifyResponse } from "@/lib/shopify";
 
-
-
-export default function Home({products}) {
+export default function Home({ products }) {
   return (
     <>
-    <Head>
-      <title>RAGESTATE</title>
-    </Head>
+      <Head>
+        <title>RAGESTATE</title>
+      </Head>
       <Navbar />
 
       <Box>
@@ -34,10 +32,9 @@ export const getServerSideProps = async () => {
   // Fetch all the products
   const products = await shopifyClient.product.fetchAll();
 
-
   return {
-   props: {
-    products: parseShopifyResponse(products),
-  },
- };
+    props: {
+      products: parseShopifyResponse(products),
+    },
+  };
 };
