@@ -1,15 +1,7 @@
 import * as React from "react";
-import { useRouter } from "next/router";
-import Image from "next/image";
 
 import { StarIcon } from "@heroicons/react/20/solid";
 import { RadioGroup } from "@headlessui/react";
-
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 
 import Navbar from "@/components/UI/navbar";
 import BreadcrumbsNavigation from "@/components/Breadcrumbs/BreadcrumbsNavigation";
@@ -22,7 +14,6 @@ export default function ProductPage({ product }) {
   const { id, title, images, variants, handle, description } = product;
   const { src: productImage } = images[0];
   const { price } = variants[0];
-
 
   return (
     <>
@@ -54,49 +45,60 @@ export default function ProductPage({ product }) {
               </li>
             ))} */}
               <li className="text-sm">
-                <a
+                <BreadcrumbsNavigation title={title} />
+                {/* <a
                   href={product.href}
                   aria-current="page"
                   className="font-medium text-gray-500 hover:text-gray-600"
                 >
                   {product.title}
-                </a>
+                </a> */}
               </li>
             </ol>
           </nav>
 
           {/* Image gallery */}
           <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-            <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
-              <img
-                src={product.images[0].src}
-                alt={product.images[0].alt}
-                className="h-full w-full object-cover object-center"
-              />
-            </div>
-            <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-              <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+            {product.images[0] && (
+              <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
                 <img
-                  src={product.images[1].src}
-                  alt={product.images[1].alt}
+                  src={product.images[0].src}
+                  alt={product.images[0].alt}
                   className="h-full w-full object-cover object-center"
                 />
               </div>
-              <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+            )}
+            {product.images[1] && (
+              <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
+                {product.images[1] && (
+                  <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+                    <img
+                      src={product.images[1].src}
+                      alt={product.images[1].alt}
+                      className="h-full w-full object-cover object-center"
+                    />
+                  </div>
+                )}
+                {product.images[2] && (
+                  <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+                    <img
+                      src={product.images[2].src}
+                      alt={product.images[2].alt}
+                      className="h-full w-full object-cover object-center"
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+            {product.images[3] && (
+              <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
                 <img
-                  src={product.images[2].src}
-                  alt={product.images[2].alt}
+                  src={product.images[3].src}
+                  alt={product.images[3].alt}
                   className="h-full w-full object-cover object-center"
                 />
               </div>
-            </div>
-            <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
-              <img
-                src={product.images[3].src}
-                alt={product.images[3].alt}
-                className="h-full w-full object-cover object-center"
-              />
-            </div>
+            )}
           </div>
 
           {/* Product info */}
@@ -291,6 +293,7 @@ export default function ProductPage({ product }) {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

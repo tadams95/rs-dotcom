@@ -1,21 +1,23 @@
-import * as React from 'react';
+import * as React from "react";
 
-import Box from '@mui/material/Box';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
+// 1. Import the necessary components from Material UI
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
 
-export default function BreadcrumbsNavigation({title}) {
+// 2. Create a new component called BreadcrumbsNavigation
+export default function BreadcrumbsNavigation({ title }) {
+  // 3. Return the Breadcrumbs component
   return (
-    <Box mt={2}>
-      <Breadcrumbs separator="›" aria-label="breadcrumb">
-        <Link underline="hover" key="1" color="inherit" href="/">
-          Products
-        </Link>
-        <Typography key="3" color="text.primary">
-          {title && title.replace(/^\w/, c => c.toUpperCase())}
-        </Typography>
-      </Breadcrumbs>
-    </Box>
-  )
+    <Breadcrumbs separator="›" aria-label="breadcrumb">
+      {/* 4. Add the first breadcrumb link */}
+      <Link underline="hover" key="1" color="inherit" href="/">
+        Products
+      </Link>
+      {/* 5. Add the final breadcrumb link */}
+      <Typography key="3" color="text.primary">
+        {title && title.replace(/^\w/, (c) => c.toUpperCase())}
+      </Typography>
+    </Breadcrumbs>
+  );
 }

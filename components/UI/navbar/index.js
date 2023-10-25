@@ -2,11 +2,13 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
+//Navbar imported and modified from Tailwind UI Components
+
 const navigation = [
   { name: "Home", href: "/", current: false },
-  { name: "Shop", href: "shop", current: false },
-  { name: "Events", href: "events", current: false },
-  { name: "Calendar", href: "calendar", current: false },
+  // { name: "Shop", href: "/shop", current: false },
+  { name: "Events", href: "/events", current: false },
+  { name: "Calendar", href: "/calendar", current: false },
 ];
 
 function classNames(...classes) {
@@ -34,11 +36,15 @@ export default function Example() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <img
-                    className="h-8 w-auto"
-                    src="https://files.cdn.printful.com/files/c7a/c7a6e95845a7a7a6db849a648824eaa1_preview.png"
-                    alt="Your Company"
-                  />
+                  <a
+                  href="/"
+                  >
+                    <img
+                      className="h-8 w-auto"
+                      src="https://files.cdn.printful.com/files/c7a/c7a6e95845a7a7a6db849a648824eaa1_preview.png"
+                      alt="Your Company"
+                    />
+                  </a>
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">

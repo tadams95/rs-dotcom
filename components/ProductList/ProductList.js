@@ -1,28 +1,30 @@
 import * as React from "react";
 import Typography from "@mui/material/Typography";
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
-import ImageListItemBar from "@mui/material/ImageListItemBar";
-import Box from "@mui/material/Box";
 import { useRouter } from "next/router";
 
-const ProductCard = ({ product, goToProductPage }) => {
+
+const ProductCard = ({ product }) => {
+  // 1. Destructure the product object to get the data we need.
   const { id, title, images, variants, handle } = product;
   const { src: productImage } = images[0];
   const { price } = variants[0];
 
   return (
     <div className="group relative">
+      {/* 2. Create an aspect ratio container for the product image. */}
       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+        {/* 3. Use the product image as a background image to fill the aspect ratio container. */}
         <img
           src={`${productImage}?w=400&h=400&fit=crop`}
           alt={title}
           className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+          loading="lazy"
         />
       </div>
       <div className="mt-4 flex justify-between">
         <div>
           <h3 className="text-md text-gray-900">
+            {/* 4. Add a link to the product page. */}
             <a href={`/products/${handle}`}>
               <span aria-hidden="true" className="absolute inset-0" />
               {title}
